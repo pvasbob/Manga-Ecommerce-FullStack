@@ -2,3 +2,5 @@
 
 fetch(url).then(()=> {return }).then(()=> {return }).then ......
 axios = cleaner way to make requests to the backend
+
+useEffect = lets us control when somecode runs

@@ -1,9 +1,19 @@
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { Header } from "../components/Header";
-import { products } from "../../starting-code/data/products.js";
 import "./HomePage.css";
 
 export function HomePage() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    //the then() in axios is equal to the two then() in fetch combined.
+    // use empty [] dependency array means the code will run only once after the component is created.
+    axios.get("http://localhost:3000/api/products").then((response) => {
+      setProducts(response.data);
+    });
+  }, []);
+
   // fetch, low level api, asyn returns a response which needs time to parse.
   // fetch("http://localhost:3000/api/products")
   //   .then((response) => {
@@ -12,11 +22,6 @@ export function HomePage() {
   //   .then((data) => {
   //     console.log(data);
   //   });
-
-  //the then() in axios is equal to the two then() in fetch combined.
-  axios.get("http://localhost:3000/api/products").then((response) => {
-    console.log(response.data);
-  });
 
   return (
     <>
