@@ -1,1 +1,4 @@
 .json() =  gives us the data attached to the response
+
+fetch(url).then(()=> {return }).then(()=> {return }).then ......
+axios = cleaner way to make requests to the backend

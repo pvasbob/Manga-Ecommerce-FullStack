@@ -1,15 +1,23 @@
+import axios from "axios";
 import { Header } from "../components/Header";
 import { products } from "../../starting-code/data/products.js";
 import "./HomePage.css";
 
 export function HomePage() {
-  fetch("http://localhost:3000/api/products")
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-    });
+  // fetch, low level api, asyn returns a response which needs time to parse.
+  // fetch("http://localhost:3000/api/products")
+  //   .then((response) => {
+  //     return response.json();
+  //   })
+  //   .then((data) => {
+  //     console.log(data);
+  //   });
+
+  //the then() in axios is equal to the two then() in fetch combined.
+  axios.get("http://localhost:3000/api/products").then((response) => {
+    console.log(response.data);
+  });
+
   return (
     <>
       <Header />
