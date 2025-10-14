@@ -5,12 +5,18 @@ import "./HomePage.css";
 
 export function HomePage() {
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     //the then() in axios is equal to the two then() in fetch combined.
     // use empty [] dependency array means the code will run only once after the component is created.
     axios.get("http://localhost:3000/api/products").then((response) => {
       setProducts(response.data);
+    });
+
+    axios.get("http://localhost:3000/api/cart-items").then((response) => {
+      console.log(response.data);
+      setCart(response.data);
     });
   }, []);
 
@@ -25,7 +31,7 @@ export function HomePage() {
 
   return (
     <>
-      <Header />
+      <Header cart={cart} />
 
       <title>Ecommerce Project</title>
       <div className="home-page">
