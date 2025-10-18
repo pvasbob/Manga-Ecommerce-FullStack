@@ -1,0 +1,111 @@
+
+React useState and useEffect — Questions & Answers Summary
+==========================================================
+
+1️⃣ Question 1: Relationship between useState and useEffect
+----------------------------------------------------------
+**Question:**
+useState is used to give a variable and a function to update this variable. As long as this variable is changed on its value by the setFunction, all currently rendered page will be updated, and this has nothing to do with useEffect() function. useEffect function is just to specify the timepoint that something will, and should happen.
+
+**Answer:**
+Exactly. To summarize:
+
+🧠 useState
+------------
+- Provides a **state variable** and a **function to update it**.
+- When you call the update function (e.g., setProducts), React automatically **re-renders** the component.
+- The re-render happens **independently** of useEffect().
+
+⚙️ useEffect
+--------------
+- Controls **when** certain code runs (for example, fetching data or running side effects).
+- The dependency array `[]` means it runs **only once after the component first mounts**.
+
+✅ Summary Sentence:
+> useState manages values that can change and cause re-renders; useEffect controls *when* certain code (like data fetching) should run, often updating state inside it.
+
+
+2️⃣ Question 2: Does useEffect([]) run again after routing away and back?
+-----------------------------------------------------------------------
+**Question:**
+Suppose the page with useEffect is rendered for the first time, and then routed away to another page, and then rendered again. Does useEffect run again?
+
+**Answer:**
+Yes — it will run again.
+
+🧩 Explanation:
+- useEffect with an **empty dependency array []** runs **once per mounting** of the component.
+- When you navigate away, the component **unmounts** (is removed from the DOM).
+- When you navigate back, React **mounts a new instance** of the component.
+- That means useEffect([]) will run again because it’s a *new mount*.
+
+📘 Example:
+```jsx
+function ProductsPage() {
+  useEffect(() => {
+    console.log("Fetching products...");
+    return () => console.log("Cleanup before unmounting");
+  }, []);
+}
+```
+✅ Behavior:
+- Visit `/products` → "Fetching products..." runs.
+- Go to `/cart` → component unmounts → "Cleanup before unmounting" runs.
+- Go back to `/products` → component mounts again → "Fetching products..." runs again.
+
+🪶 Summary Table:
+
+| Situation | Will useEffect([]) run again? | Reason |
+|------------|------------------------------|---------|
+| State/props change | ❌ No | Empty dependency array |
+| Component unmounted and re-mounted (routing) | ✅ Yes | New instance of component |
+
+
+3️⃣ Question 3: If React re-renders when state updates, why doesn’t the page blink?
+-----------------------------------------------------------------------------------
+**Question:**
+When the state gets updated by the setFunction, you said everything which is currently rendered will be rendered again. In this case, it should blink, but I never saw it.
+
+**Answer:**
+Great observation! The page doesn’t blink because React updates the UI **intelligently** using its **Virtual DOM**.
+
+🧠 What happens when setState is called:
+1. React re-runs your component to produce the new UI (a "virtual render").
+2. React compares the new virtual DOM to the old one.
+3. It applies only the **minimal changes** to the real DOM.
+4. The browser updates just that small part — no full-page redraw.
+
+⚙️ Example:
+```jsx
+function App() {
+  const [count, setCount] = useState(0);
+  console.log("App rendered");
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>+</button>
+    </div>
+  );
+}
+```
+Every time you click:
+- The function `App()` runs again logically.
+- React only updates the `<p>` text — not the whole page.
+
+🪞Visual Analogy:
+```
+React render cycle
+├── Old virtual DOM
+├── New virtual DOM (after state change)
+└── React diffing algorithm → Update only changed parts
+```
+
+✅ Summary:
+| Step | Description |
+|------|--------------|
+| 1 | setState() called |
+| 2 | Component re-renders virtually |
+| 3 | React diffs old vs new virtual DOM |
+| 4 | Only changed parts are updated in real DOM |
+| 5 | No blinking — smooth updates |
