@@ -10,12 +10,31 @@ export function HomePage({ cart }) {
   // lifted up to App.jsx for shareing between two .jsx.
   // const [cart, setCart] = useState([]);
 
+  // useEffect(() => {
+  //   //the then() in axios is equal to the two then() in fetch combined.
+  //   // use empty [] dependency array means the code will run only once after the component is created.
+  //   axios.get("http://localhost:3000/api/products").then((response) => {
+  //     setProducts(response.data);
+  //   });
+  // }, []);
+
+  // use async await
+  // show that the lambda function is async, so that we can use await. However, if the async is put for the first lambda function, the labmda function will return a promise, and useEffect does not expect that. Function directly inside useEffect should return nothing or a cleaning function.
+  // useEffect(async () => {
+  //   // use await
+  //   const response = await axios.get("http://localhost:3000/api/products");
+  //   setProducts(response.data);
+  // }, []);
+
   useEffect(() => {
-    //the then() in axios is equal to the two then() in fetch combined.
-    // use empty [] dependency array means the code will run only once after the component is created.
-    axios.get("http://localhost:3000/api/products").then((response) => {
+    // Alternative solution: define a function inside which use async. Function definition:
+    const getHomeData = async () => {
+      const response = await axios.get("http://localhost:3000/api/products");
       setProducts(response.data);
-    });
+    };
+
+    // call the defined function.
+    getHomeData();
   }, []);
 
   // fetch, low level api, asyn returns a response which needs time to parse.
