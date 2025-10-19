@@ -5,7 +5,7 @@ import "./HomePage.css";
 
 import { ProductsGrid } from "./ProductsGrid";
 
-export function HomePage({ cart }) {
+export function HomePage({ cart, loadCart }) {
   const [products, setProducts] = useState([]);
   // lifted up to App.jsx for shareing between two .jsx.
   // const [cart, setCart] = useState([]);
@@ -52,7 +52,7 @@ export function HomePage({ cart }) {
 
       <title>Ecommerce Project</title>
       <div className="home-page">
-        <ProductsGrid products={products} />
+        <ProductsGrid products={products} loadCart={loadCart} />
       </div>
     </>
   );

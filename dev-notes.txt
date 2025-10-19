@@ -6,3 +6,5 @@ axios = cleaner way to make requests to the backend
 useEffect = lets us control when somecode runs
 
 when use 'async' inside useEffect, we need to define another function, and put the 'async' inside this function, and call this funciton.  The reason of doing this is that, the function which useEffect directly called should return nothing. 
+
+data Mutation = update data in the backend

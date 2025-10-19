@@ -17,22 +17,34 @@ function App() {
   //       setCart(response.data);
   //     });
   // }, []);
-
+  //
+  //
   // design a function indie useEffect so that the async is applied to this funtion.
-  useEffect(() => {
-    const fetchAppData = async () => {
-      const response = await axios.get(
-        "http://localhost:3000/api/cart-items?expand=product"
-      );
-      setCart(response.data);
-    };
+  // useEffect(() => {
+  //   const fetchAppData = async () => {
+  //     const response = await axios.get(
+  //       "http://localhost:3000/api/cart-items?expand=product"
+  //     );
+  //     setCart(response.data);
+  //   };
 
-    fetchAppData();
+  //   fetchAppData();
+  // }, []);
+
+  const loadCart = async () => {
+    const response = await axios.get(
+      "http://localhost:3000/api/cart-items?expand=product"
+    );
+    setCart(response.data);
+  };
+
+  useEffect(() => {
+    loadCart();
   }, []);
 
   return (
     <Routes>
-      <Route index element={<HomePage cart={cart} />} />
+      <Route index element={<HomePage cart={cart} loadCart={loadCart} />} />
       <Route path="checkout" element={<CheckoutPage cart={cart} />} />
       <Route path="orders" element={<OrdersPage cart={cart} />} />
       <Route path="tracking" element={<TrackingPage />} />
